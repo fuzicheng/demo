@@ -1,20 +1,27 @@
-import random
+import requests
 
 
-def Unicode():
-    val = random.randint(0x4e00, 0x9fbf)
-    return chr(val)
+class Demo:
+    addUser_url = 'https://zhizi-release.arkfintech.cn/'
+
+    def test(self, url):
+        new_url = self.addUser_url + url
+        userData = {
+            "jsCode": "013FJR4l1hBuzq0ziN4l18KR4l1FJR4g"
+        }
+        rep = requests.post(new_url, data=userData)
+        print(rep.text)
+        getaddUser = (rep.json()['sessionKey'])
+        print(getaddUser)
+
+        if getaddUser is None:
+
+            print("失败")
+        else:
+
+            print("成功")
 
 
-def GBK2312():
-    head = random.randint(0xb0, 0xf7)
-    body = random.randint(0xa1, 0xfe)
-    val = f'{head:x} {body:x}'
-    str = bytes.fromhex(val).decode('gb2312')
-    return str
+d = Demo()
 
-
-if __name__ == '__main__':
-    print("付")
-    print(Unicode())
-    print(GBK2312())
+d.test('weixin/getSessionKey')
